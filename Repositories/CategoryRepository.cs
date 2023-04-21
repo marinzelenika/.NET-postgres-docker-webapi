@@ -28,5 +28,28 @@ namespace SampleAPI.Repositories
             return await _context.Categories.FindAsync(id);
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return false;
+            }
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<Category> UpdateAsync(Category category)
+        {
+            _context.Entry(category).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return category;
+        }
+
+
+
     }
 }

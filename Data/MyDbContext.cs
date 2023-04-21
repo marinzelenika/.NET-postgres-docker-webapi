@@ -58,11 +58,22 @@ namespace sample_app.Data
                     .WithMany(t => t.OrderDetails)
                     .HasForeignKey(e => e.TShirtID);
             });
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasKey(e => e.CategoryID);
+
+                // Add this to configure the self-referencing relationship
+                entity.HasOne(e => e.ParentCategory)
+                    .WithMany(e => e.Subcategories)
+                    .HasForeignKey(e => e.ParentCategoryID)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
         }
 
-       
-        }
+
+    }
 
 
     }

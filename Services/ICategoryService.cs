@@ -8,5 +8,8 @@ namespace SampleAPI.Services
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
         Task<CategoryDTO> GetCategoryByIdAsync(int id);
         Task<Category> AddAsync(CategoryDTO categoryDto);
+        Task<bool> DeleteAsync(int id);
+        Task<Category> UpdateAsync(CategoryDTO categoryDto);
+
     }
 }

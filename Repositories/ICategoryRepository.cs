@@ -7,5 +7,7 @@ namespace SampleAPI.Repositories
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
         Task<Category> AddAsync(Category category);
         Task<Category> GetCategoryByIdAsync(int id);
+        Task<bool> DeleteAsync(int id);
+        Task<Category> UpdateAsync(Category category);
     }
 }

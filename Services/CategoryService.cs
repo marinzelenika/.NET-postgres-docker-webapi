@@ -34,5 +34,18 @@ namespace SampleAPI.Services
             var category = await _repository.GetCategoryByIdAsync(id);
             return category.Adapt<CategoryDTO>();
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            return await _repository.DeleteAsync(id);
+        }
+
+        public async Task<Category> UpdateAsync(CategoryDTO categoryDto)
+        {
+            Category category = categoryDto.Adapt<Category>();
+            return await _repository.UpdateAsync(category);
+        }
+
+
     }
 }
