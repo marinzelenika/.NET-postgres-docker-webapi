@@ -48,10 +48,10 @@ namespace SampleAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TShirts",
+                name: "Products",
                 columns: table => new
                 {
-                    TShirtID = table.Column<int>(type: "integer", nullable: false)
+                    ProductID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CategoryID = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -63,9 +63,9 @@ namespace SampleAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TShirts", x => x.TShirtID);
+                    table.PrimaryKey("PK_Products", x => x.ProductID);
                     table.ForeignKey(
-                        name: "FK_TShirts_Categories_CategoryID",
+                        name: "FK_Products_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
                         principalColumn: "CategoryID",
@@ -101,7 +101,7 @@ namespace SampleAPI.Migrations
                     OrderDetailID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OrderID = table.Column<int>(type: "integer", nullable: false),
-                    TShirtID = table.Column<int>(type: "integer", nullable: false),
+                    ProductID = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
@@ -115,10 +115,10 @@ namespace SampleAPI.Migrations
                         principalColumn: "OrderID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_TShirts_TShirtID",
-                        column: x => x.TShirtID,
-                        principalTable: "TShirts",
-                        principalColumn: "TShirtID",
+                        name: "FK_OrderDetails_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -128,9 +128,9 @@ namespace SampleAPI.Migrations
                 column: "OrderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_TShirtID",
+                name: "IX_OrderDetails_ProductID",
                 table: "OrderDetails",
-                column: "TShirtID");
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserID",
@@ -138,8 +138,8 @@ namespace SampleAPI.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TShirts_CategoryID",
-                table: "TShirts",
+                name: "IX_Products_CategoryID",
+                table: "Products",
                 column: "CategoryID");
         }
 
@@ -153,7 +153,7 @@ namespace SampleAPI.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "TShirts");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Users");

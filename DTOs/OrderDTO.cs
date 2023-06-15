@@ -6,6 +6,6 @@
         public Guid UserID { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public string OrderStatus { get; set; }
+        public List<OrderDetailDTO> OrderDetails { get; set; }
     }
 }

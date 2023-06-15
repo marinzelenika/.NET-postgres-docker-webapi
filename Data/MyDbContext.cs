@@ -14,66 +14,54 @@ namespace sample_app.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<TShirt> TShirts { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.UserID);
-                entity.Property(e => e.UserID).ValueGeneratedOnAdd();
-            });
+            // Configure User-Order relationship
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserID);
 
-            modelBuilder.Entity<TShirt>(entity =>
-            {
-                entity.HasKey(e => e.TShirtID);
-                entity.HasOne(e => e.Category)
-                    .WithMany(c => c.TShirts)
-                    .HasForeignKey(e => e.CategoryID);
-            });
+            // Configure Order-OrderDetail relationship
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(od => od.OrderID);
 
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasKey(e => e.CategoryID);
-            });
+            // Configure Product-OrderDetail relationship
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Product)
+                .WithMany(p => p.OrderDetails)
+                .HasForeignKey(od => od.ProductID);
 
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.HasKey(e => e.OrderID);
-                entity.HasOne(e => e.User)
-                    .WithMany(u => u.Orders)
-                    .HasForeignKey(e => e.UserID);
-            });
+            // Configure Category-Product relationship
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryID);
 
-            modelBuilder.Entity<OrderDetail>(entity =>
-            {
-                entity.HasKey(e => e.OrderDetailID);
-                entity.HasOne(e => e.Order)
-                    .WithMany(o => o.OrderDetails)
-                    .HasForeignKey(e => e.OrderID);
-                entity.HasOne(e => e.TShirt)
-                    .WithMany(t => t.OrderDetails)
-                    .HasForeignKey(e => e.TShirtID);
-            });
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasKey(e => e.CategoryID);
+            // Configure Product-Image relationship
+            modelBuilder.Entity<Image>()
+                .HasOne(i => i.Product)
+                .WithMany(p => p.Images)
+                .HasForeignKey(i => i.ProductID);
 
-                // Add this to configure the self-referencing relationship
-                entity.HasOne(e => e.ParentCategory)
-                    .WithMany(e => e.Subcategories)
-                    .HasForeignKey(e => e.ParentCategoryID)
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
-
-
+            // Configure self-referencing Category relationship
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Subcategories)
+                .WithOne(c => c.ParentCategory)
+                .HasForeignKey(c => c.ParentCategoryID);
         }
 
 
+
     }
 
 
-    }
+}

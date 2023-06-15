@@ -91,25 +91,25 @@ namespace SampleAPI.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TShirtID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("integer");
 
                     b.HasKey("OrderDetailID");
 
                     b.HasIndex("OrderID");
 
-                    b.HasIndex("TShirtID");
+                    b.HasIndex("ProductID");
 
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("SampleAPI.Models.TShirt", b =>
+            modelBuilder.Entity("SampleAPI.Models.Product", b =>
                 {
-                    b.Property<int>("TShirtID")
+                    b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TShirtID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductID"));
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("integer");
@@ -136,11 +136,11 @@ namespace SampleAPI.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
 
-                    b.HasKey("TShirtID");
+                    b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("TShirts");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("SampleAPI.Models.User", b =>
@@ -213,21 +213,21 @@ namespace SampleAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SampleAPI.Models.TShirt", "TShirt")
+                    b.HasOne("SampleAPI.Models.Product", "Product")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("TShirtID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("TShirt");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SampleAPI.Models.TShirt", b =>
+            modelBuilder.Entity("SampleAPI.Models.Product", b =>
                 {
                     b.HasOne("SampleAPI.Models.Category", "Category")
-                        .WithMany("TShirts")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -237,7 +237,7 @@ namespace SampleAPI.Migrations
 
             modelBuilder.Entity("SampleAPI.Models.Category", b =>
                 {
-                    b.Navigation("TShirts");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("SampleAPI.Models.Order", b =>
@@ -245,7 +245,7 @@ namespace SampleAPI.Migrations
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("SampleAPI.Models.TShirt", b =>
+            modelBuilder.Entity("SampleAPI.Models.Product", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
